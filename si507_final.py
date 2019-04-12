@@ -1,7 +1,7 @@
 # from data_models import Pokemon, Party
 from flask import Flask, render_template, session, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
-
+from sqlalchemy import Table, Column, ForeignKey, Integer, String, Boolean
 from sqlalchemy.orm import relationship
 
 import csv
@@ -27,7 +27,7 @@ session = db.session # to make queries easy
 ## Definitely one to drop what's in the DB and load in the pokemon data
 
 ## Classes for database models
-party_table = Table('party_to_pokemon', Base.metadata,
+party_table = Table('party_to_pokemon', db.Model.metadata,
     Column('party_id', Integer, ForeignKey('party.id')),
     Column('pokemon_id', Integer, ForeignKey('pokemon.id')))
 
