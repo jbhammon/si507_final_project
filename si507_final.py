@@ -2,6 +2,8 @@
 from flask import Flask, render_template, session, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 
+from sqlalchemy.orm import relationship
+
 import csv
 # from matplotlib import pyplot as plt
 # import seaborn as sns
@@ -25,6 +27,10 @@ session = db.session # to make queries easy
 ## Definitely one to drop what's in the DB and load in the pokemon data
 
 ## Classes for database models
+party_table = Table('party_to_pokemon', Base.metadata,
+    Column('party_id', Integer, ForeignKey('party.id')),
+    Column('pokemon_id', Integer, ForeignKey('pokemon.id')))
+
 class Pokemon(db.Model):
     __tablename__ = 'pokemon'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
@@ -40,6 +46,21 @@ class Pokemon(db.Model):
     Sp_Defense = db.Column(db.Integer)
     Speed = db.Column(db.Integer)
 
+class Game(db.Model):
+    __tablename__ = 'game'
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    name = db.Column(db.String(64))
+    generation = db.Column(db.Integer)
+
+class Party(db.Model):
+    __tablename__ = 'party'
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    game = db.Column(db.Integer)
+    nickname = db.Column(db.String(64))
+    party_size = db.Column(db.Integer)
+
+    pokemon = relationship('Pokemon', secondary = party_table, backref = 'parties')
+
 ## Route functions
 @app.route('/')
 def index():
@@ -47,11 +68,8 @@ def index():
     return '<h1>There are {} pokemon in the database.</h1>'.format(num_rows)
 
 ## Helper functions
-# next_bar = ChocolateBar(Company = company, SpecificBeanBarName = specificName,
-#                         ReviewDate = reviewDate, CocoaPercent = cocoaPercent,
-#                         CompanyCountry = companyCountry, Rating = rating)
 def fill_pokemon_data():
-    with open('Pokemon.csv') as csvfile:
+    with open('data/Pokemon.csv') as csvfile:
         readCSV = csv.reader(csvfile, delimiter=',')
         next(readCSV)
         for row in readCSV:
@@ -59,6 +77,14 @@ def fill_pokemon_data():
                                    HP = row[5], Attack = row[6], Defense = row[7], Sp_Attack = row[8],
                                    Sp_Defense = row[9], Speed = row[10])
             session.add(next_pokemon)
+        session.commit()
+
+    with open('data/Games.csv') as csvfile:
+        readCSV = csv.reader(csvfile, delimiter=',')
+        next(readCSV)
+        for row in readCSV:
+            next_game = Game(name = row[0], generation = row[1])
+            session.add(next_game)
         session.commit()
 
 if __name__ == '__main__':
