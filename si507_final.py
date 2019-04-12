@@ -43,7 +43,8 @@ class Pokemon(db.Model):
 ## Route functions
 @app.route('/')
 def index():
-    return '<h1>testing bruh</h1>'
+    num_rows = str(Pokemon.query.count())
+    return '<h1>There are {} pokemon in the database.</h1>'.format(num_rows)
 
 ## Helper functions
 # next_bar = ChocolateBar(Company = company, SpecificBeanBarName = specificName,
