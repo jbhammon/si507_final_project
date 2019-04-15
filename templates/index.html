@@ -1,0 +1,25 @@
+<h1>Welcome to the Team Builder Dashboard!</h1>
+
+<p>You can edit teams you already created below.</p>
+
+<ul>
+{% for team in recent_teams %}
+<li><a href='/build_team/{{ team }}'>{{ team }}</a></li><br>
+{% endfor %}
+</ul>
+
+{% if not recent_teams %}
+{% endif %}
+
+<p>To create a new team click <a href='/build_team'>here!</a></p>
+
+<form method="post">
+ <fieldset>
+   <legend>Create a new team:</legend>
+   Name:<br>
+   <input type="text" name="name"><br>
+   Game:<br>
+   <input type="text" name="game"><br>
+   <input type="submit" value="Submit">
+ </fieldset>
+</form>

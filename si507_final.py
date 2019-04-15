@@ -27,9 +27,9 @@ session = db.session # to make queries easy
 ## Definitely one to drop what's in the DB and load in the pokemon data
 
 ## Classes for database models
-party_table = Table('party_to_pokemon', db.Model.metadata,
-    Column('party_id', Integer, ForeignKey('party.id')),
-    Column('pokemon_id', Integer, ForeignKey('pokemon.id')))
+party_table = db.Table('party_to_pokemon',
+    db.Column('party_id', db.Integer, db.ForeignKey('party.id')),
+    db.Column('pokemon_id', db.Integer, db.ForeignKey('pokemon.id')))
 
 class Pokemon(db.Model):
     __tablename__ = 'pokemon'
@@ -56,16 +56,43 @@ class Party(db.Model):
     __tablename__ = 'party'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     game = db.Column(db.Integer)
-    nickname = db.Column(db.String(64))
+    name = db.Column(db.String(64))
     party_size = db.Column(db.Integer)
 
     pokemon = relationship('Pokemon', secondary = party_table, backref = 'parties')
 
 ## Route functions
-@app.route('/')
+@app.route('/', methods = ['POST', 'GET'])
 def index():
-    num_rows = str(Pokemon.query.count())
-    return '<h1>There are {} pokemon in the database.</h1>'.format(num_rows)
+    if request.method == 'POST':
+        game = request.form['game']
+        name = request.form['name']
+        new_party = Party(game = game, name = name, party_size = 0)
+        session.add(new_party)
+        session.commit()
+
+    recent_three_teams = Party.query.order_by(Party.id.desc()).limit(3).all()
+    recent_three_strings = []
+    for team in recent_three_teams:
+        recent_three_strings.append(str(team.name))
+
+    return render_template('index.html', recent_teams = recent_three_strings)
+
+@app.route('/build_team/<teamname>', methods = ['POST', 'GET'])
+def build_team(teamname):
+    if request.method == 'POST':
+        ## find
+        party = Party.query.filter_by(name = teamname).first()
+        next_pokemon = Pokemon.query.filter_by(name = request.form['name'].lower()).first()
+        party.pokemon.append(next_pokemon)
+        session.add(party)
+        session.commit()
+
+    return render_template('view_team.html')
+
+@app.route('/details/<pokemon>')
+def pokemon_details(pokemon):
+    return "<h1>You'll see details about {} here!".format(pokemon)
 
 ## Helper functions
 def fill_pokemon_data():
@@ -73,7 +100,7 @@ def fill_pokemon_data():
         readCSV = csv.reader(csvfile, delimiter=',')
         next(readCSV)
         for row in readCSV:
-            next_pokemon = Pokemon(number = row[0], name = row[1], type_1 = row[2], type_2 = row[3], Total = row[4],
+            next_pokemon = Pokemon(number = row[0], name = row[1].lower(), type_1 = row[2], type_2 = row[3], Total = row[4],
                                    HP = row[5], Attack = row[6], Defense = row[7], Sp_Attack = row[8],
                                    Sp_Defense = row[9], Speed = row[10])
             session.add(next_pokemon)
