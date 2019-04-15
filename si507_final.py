@@ -46,6 +46,11 @@ class Pokemon(db.Model):
     Sp_Defense = db.Column(db.Integer)
     Speed = db.Column(db.Integer)
 
+    def details(self):
+        data = [self.name, self.type_1, self.type_2, self.Total, self.Attack, self.Defense,
+                self.Sp_Attack, self.Sp_Defense, self.Speed, self.HP]
+        return data
+
 class Game(db.Model):
     __tablename__ = 'game'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
@@ -88,11 +93,17 @@ def build_team(teamname):
         session.add(party)
         session.commit()
 
-    return render_template('view_team.html')
+    current_team = Party.query.filter_by(name = teamname).first().pokemon
+    current_team_names = []
+    for pokemon in current_team:
+        current_team_names.append(pokemon.name)
+
+    return render_template('view_team.html', team_members = current_team_names)
 
 @app.route('/details/<pokemon>')
 def pokemon_details(pokemon):
-    return "<h1>You'll see details about {} here!".format(pokemon)
+    subject = Pokemon.query.filter_by(name = pokemon.lower()).first()
+    return render_template('pokemon.html', subject = subject.details())
 
 ## Helper functions
 def fill_pokemon_data():
