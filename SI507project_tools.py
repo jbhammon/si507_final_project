@@ -27,9 +27,15 @@ session = db.session # to make queries easy
 ## Definitely one to drop what's in the DB and load in the pokemon data
 
 ## Classes for database models
-party_table = db.Table('party_to_pokemon',
-    db.Column('party_id', db.Integer, db.ForeignKey('party.id')),
-    db.Column('pokemon_id', db.Integer, db.ForeignKey('pokemon.id')))
+class PartyMember(db.Model):
+
+    __tablename__ = 'party_member'
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    party_id = Column(db.Integer, ForeignKey('party.id'))
+    pokemon_id = Column(db.Integer, ForeignKey('pokemon.id'))
+    extra_data = Column(db.Integer)
+    pokemon = relationship("Pokemon", back_populates="parties")
+    party = relationship("Party", back_populates="pokemon")
 
 class Pokemon(db.Model):
     __tablename__ = 'pokemon'
@@ -45,6 +51,8 @@ class Pokemon(db.Model):
     Sp_Attack = db.Column(db.Integer)
     Sp_Defense = db.Column(db.Integer)
     Speed = db.Column(db.Integer)
+
+    parties = relationship("PartyMember", back_populates="pokemon")
 
     def details(self):
         data = [self.name, self.type_1, self.type_2, self.Total, self.Attack, self.Defense,
@@ -64,7 +72,7 @@ class Party(db.Model):
     name = db.Column(db.String(64))
     party_size = db.Column(db.Integer)
 
-    pokemon = relationship('Pokemon', secondary = party_table, backref = 'parties')
+    pokemon = relationship("PartyMember", back_populates = "party")
 
 ## Route functions
 @app.route('/', methods = ['POST', 'GET'])
@@ -89,21 +97,26 @@ def build_team(teamname):
         ## find
         party = Party.query.filter_by(name = teamname).first()
         next_pokemon = Pokemon.query.filter_by(name = request.form['name'].lower()).first()
-        party.pokemon.append(next_pokemon)
+        next_member = PartyMember(extra_data = 50)
+        next_member.pokemon = next_pokemon
+        party.pokemon.append(next_member)
+
         session.add(party)
+        session.add(next_pokemon)
+        session.add(next_member)
         session.commit()
 
     current_team = Party.query.filter_by(name = teamname).first().pokemon
     current_team_names = []
-    for pokemon in current_team:
-        current_team_names.append(pokemon.name)
+    for member in current_team:
+        current_team_names.append(member.pokemon.name)
 
     return render_template('view_team.html', team_members = current_team_names)
 
 @app.route('/details/<pokemon>')
 def pokemon_details(pokemon):
-    subject = Pokemon.query.filter_by(name = pokemon.lower()).first()
-    return render_template('pokemon.html', subject = subject.details())
+    subject = Pokemon.query.filter_by(name = request.form['name'].lower()).first()
+    return render_template('pokemon.html', subject = subject.details)
 
 ## Helper functions
 def fill_pokemon_data():
