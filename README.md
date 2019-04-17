@@ -43,6 +43,7 @@ This project is be a dashboard for users to build their Pokemon parties. The pro
   - Pokemon.csv
 - .gitignore
 - requirements.txt
+- DB Diagram.png
 - README.md
 - SI507project_tests.py
 - SI507project_tools.py

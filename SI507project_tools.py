@@ -27,6 +27,8 @@ session = db.session # to make queries easy
 ## Definitely one to drop what's in the DB and load in the pokemon data
 
 ## Classes for database models
+
+## Table to help with many-to-many relationship of pokemon and parties
 class PartyMember(db.Model):
 
     __tablename__ = 'party_member'
@@ -94,7 +96,7 @@ def index():
 @app.route('/build_team/<teamname>', methods = ['POST', 'GET'])
 def build_team(teamname):
     if request.method == 'POST':
-        ## find
+        
         party = Party.query.filter_by(name = teamname).first()
         next_pokemon = Pokemon.query.filter_by(name = request.form['name'].lower()).first()
         next_member = PartyMember(extra_data = 50)
@@ -137,6 +139,10 @@ def fill_pokemon_data():
             next_game = Game(name = row[0], generation = row[1])
             session.add(next_game)
         session.commit()
+
+## Function to help check a party's pokemon's types and find the weaknesses that aren't covered
+def type_checking():
+    pass
 
 if __name__ == '__main__':
     db.drop_all()
