@@ -96,7 +96,7 @@ def index():
 @app.route('/build_team/<teamname>', methods = ['POST', 'GET'])
 def build_team(teamname):
     if request.method == 'POST':
-        
+
         party = Party.query.filter_by(name = teamname).first()
         next_pokemon = Pokemon.query.filter_by(name = request.form['name'].lower()).first()
         next_member = PartyMember(extra_data = 50)
@@ -119,6 +119,10 @@ def build_team(teamname):
 def pokemon_details(pokemon):
     subject = Pokemon.query.filter_by(name = request.form['name'].lower()).first()
     return render_template('pokemon.html', subject = subject.details)
+
+@app.route('/db_refresh')
+def database_refresh():
+    return render_template('refresh.html')
 
 ## Helper functions
 def fill_pokemon_data():
