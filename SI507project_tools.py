@@ -122,6 +122,9 @@ def pokemon_details(pokemon):
 
 @app.route('/db_refresh')
 def database_refresh():
+    db.drop_all()
+    db.create_all()
+    fill_pokemon_data()
     return render_template('refresh.html')
 
 ## Helper functions
@@ -149,7 +152,4 @@ def type_checking():
     pass
 
 if __name__ == '__main__':
-    db.drop_all()
-    db.create_all()
-    fill_pokemon_data()
-    app.run(use_reloader=False)
+    app.run()
