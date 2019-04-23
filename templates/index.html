@@ -1,6 +1,6 @@
 <h1>Welcome to the Team Builder Dashboard!</h1>
 
-<p>You can edit teams you already created below.</p>
+<p>You can edit teams you already created below, or create new ones.</p>
 
 <ul>
 {% for team in recent_teams %}
@@ -10,8 +10,6 @@
 
 {% if not recent_teams %}
 {% endif %}
-
-<p>To create a new team click <a href='/build_team'>here!</a></p>
 
 <form method="post">
  <fieldset>
