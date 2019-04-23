@@ -117,8 +117,8 @@ def build_team(teamname):
 
 @app.route('/details/<pokemon>')
 def pokemon_details(pokemon):
-    subject = Pokemon.query.filter_by(name = request.form['name'].lower()).first()
-    return render_template('pokemon.html', subject = subject.details)
+    subject = Pokemon.query.filter_by(name = pokemon.lower()).first()
+    return render_template('pokemon.html', subject = subject.details())
 
 @app.route('/db_refresh')
 def database_refresh():
