@@ -20,6 +20,11 @@
 </ul>
 {% endif %}
 
+{% if teamsize == 6 %}
+<p>Your party is full! You need to remove a Pokemon before you can add another.</p>
+{% endif %}
+
+{% if teamsize < 6 %}
 <form method="post">
  <fieldset>
    <legend>Add a Pokemon:</legend>
@@ -28,5 +33,6 @@
    <input type="submit" value="Submit">
  </fieldset>
 </form>
+{% endif %}
 
 <a href='/'>Return to the home page</a>

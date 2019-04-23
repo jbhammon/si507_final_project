@@ -119,13 +119,15 @@ def build_team(teamname):
         next_member = PartyMember(extra_data = 50)
         next_member.pokemon = next_pokemon
         party.pokemon.append(next_member)
+        party.party_size += 1
 
         session.add(party)
         session.add(next_pokemon)
         session.add(next_member)
         session.commit()
 
-    current_team = Party.query.filter_by(name = teamname).first().pokemon
+    current_party = Party.query.filter_by(name = teamname).first()
+    current_team = current_party.pokemon
     current_team_names = []
     for member in current_team:
         current_team_names.append(member.pokemon.name)
@@ -138,15 +140,18 @@ def build_team(teamname):
             missing_resistances.append(poke_type)
 
     return render_template('view_team.html', team_members = current_team_names,
-                           missing_resistances = missing_resistances, teamname = teamname)
+                           missing_resistances = missing_resistances, teamname = teamname,
+                           teamsize = current_party.party_size)
 
 @app.route('/delete/<teamname>/<pokemon>')
 def delete_from_team(teamname, pokemon):
-    ## remove row from the table
-    current_team = Party.query.filter_by(name = teamname).first().pokemon
+    ## deleting pokemon from the party
+    current_party = Party.query.filter_by(name = teamname).first()
+    current_team = current_party.pokemon
     for member in current_team:
         if(member.pokemon.name == pokemon):
             session.delete(member)
+            current_party.party_size -= 1
             break
 
     return redirect(url_for('build_team', teamname = teamname))
