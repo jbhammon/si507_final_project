@@ -2,11 +2,14 @@
 
 <h2>Current team members</h2>
 
-<ul>
+<table>
 {% for pokemon in team_members %}
-<li><a href='/details/{{ pokemon }}'>{{ pokemon }}</a></li><br>
+  <tr>
+    <td><a href='/details/{{ pokemon }}'>{{ pokemon }}</a></td>
+    <td><a href='/delete/{{ teamname }}/{{ pokemon }}'>Delete from team</a></td>
+  </tr>
 {% endfor %}
-</ul>
+</table>
 
 {% if missing_resistances %}
 <p>Types this party has no resistance to:</p>

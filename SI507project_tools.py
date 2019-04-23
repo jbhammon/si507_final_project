@@ -138,7 +138,18 @@ def build_team(teamname):
             missing_resistances.append(poke_type)
 
     return render_template('view_team.html', team_members = current_team_names,
-                           missing_resistances = missing_resistances)
+                           missing_resistances = missing_resistances, teamname = teamname)
+
+@app.route('/delete/<teamname>/<pokemon>')
+def delete_from_team(teamname, pokemon):
+    ## remove row from the table
+    current_team = Party.query.filter_by(name = teamname).first().pokemon
+    for member in current_team:
+        if(member.pokemon.name == pokemon):
+            session.delete(member)
+            break
+
+    return redirect(url_for('build_team', teamname = teamname))
 
 @app.route('/details/<pokemon>')
 def pokemon_details(pokemon):
