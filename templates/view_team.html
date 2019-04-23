@@ -8,6 +8,15 @@
 {% endfor %}
 </ul>
 
+{% if missing_resistances %}
+<p>Types this party has no resistance to:</p>
+<ul>
+{% for type in missing_resistances %}
+  <li>{{ type }}</li><br>
+{% endfor %}
+</ul>
+{% endif %}
+
 <form method="post">
  <fieldset>
    <legend>Add a Pokemon:</legend>
@@ -16,3 +25,5 @@
    <input type="submit" value="Submit">
  </fieldset>
 </form>
+
+<a href='/'>Return to the home page</a>

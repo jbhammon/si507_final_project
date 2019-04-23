@@ -24,7 +24,24 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app) # For database use
 session = db.session # to make queries easy
 
-## Definitely one to drop what's in the DB and load in the pokemon data
+RESISTANCES = {'Normal': ['Ghost'],
+               'Fighting': ['Rock', 'Bug', 'Dark'],
+               'Flying': ['Fighting', 'Bug', 'Grass'],
+               'Poison': ['Fighting', 'Poison', 'Bug', 'Grass', 'Fairy'],
+               'Ground': ['Poison', 'Rock'],
+               'Rock': ['Normal', 'Flying', 'Poison', 'Fire'],
+               'Bug': ['Fighting', 'Ground', 'Grass'],
+               'Ghost': ['Normal', 'Fighting', 'Poison', 'Bug'],
+               'Steel': ['Normal', 'Flying', 'Rock', 'Bug', 'Steel', 'Grass', 'Psychic', 'Ice', 'Dragon', 'Fairy'],
+               'Fire': ['Bug', 'Steel', 'Fire', 'Grass', 'Ice', 'Fairy'],
+               'Water': ['Steel', 'Fire', 'Water', 'Ice'],
+               'Grass': ['Ground', 'Water', 'Grass', 'Electric'],
+               'Electric': ['Flying', 'Steel', 'Electric'],
+               'Psychic': ['Fighting', 'Psychic'],
+               'Ice': ['Ice'],
+               'Dragon': ['Fire', 'Water', 'Grass', 'Electric'],
+               'Dark': ['Ghost', 'Psychic', 'Dark'],
+               'Fairy': ['Fighting', 'Bug', 'Dark']}
 
 ## Classes for database models
 
@@ -113,7 +130,15 @@ def build_team(teamname):
     for member in current_team:
         current_team_names.append(member.pokemon.name)
 
-    return render_template('view_team.html', team_members = current_team_names)
+    ## code to calculate missing type coverage
+    resistances = resistance_checking(current_team)
+    missing_resistances = []
+    for poke_type in resistances:
+        if resistances[poke_type] == 0:
+            missing_resistances.append(poke_type)
+
+    return render_template('view_team.html', team_members = current_team_names,
+                           missing_resistances = missing_resistances)
 
 @app.route('/details/<pokemon>')
 def pokemon_details(pokemon):
@@ -148,8 +173,33 @@ def fill_pokemon_data():
         session.commit()
 
 ## Function to help check a party's pokemon's types and find the weaknesses that aren't covered
-def type_checking():
-    pass
+def resistance_checking(team):
+    resistance_dict = {'Normal': 0,
+                       'Fighting': 0,
+                       'Flying': 0,
+                       'Poison': 0,
+                       'Ground': 0,
+                       'Rock': 0,
+                       'Bug': 0,
+                       'Ghost': 0,
+                       'Steel': 0,
+                       'Fire': 0,
+                       'Water': 0,
+                       'Grass': 0,
+                       'Electric': 0,
+                       'Psychic': 0,
+                       'Ice': 0,
+                       'Dragon': 0,
+                       'Dark': 0,
+                       'Fairy': 0}
+
+    for member in team:
+        resistances = RESISTANCES[member.pokemon.type_1]
+        if(member.pokemon.type_2):
+            resistances = resistances + RESISTANCES[member.pokemon.type_2]
+        for item in resistances:
+            resistance_dict[item] = 1
+    return resistance_dict
 
 if __name__ == '__main__':
     app.run()
