@@ -26,7 +26,7 @@ session = db.session # to make queries easy
 
 RESISTANCES = {'Normal': ['Ghost'],
                'Fighting': ['Rock', 'Bug', 'Dark'],
-               'Flying': ['Fighting', 'Bug', 'Grass'],
+               'Flying': ['Fighting', 'Ground', 'Bug', 'Grass'],
                'Poison': ['Fighting', 'Poison', 'Bug', 'Grass', 'Fairy'],
                'Ground': ['Poison', 'Rock'],
                'Rock': ['Normal', 'Flying', 'Poison', 'Fire'],
