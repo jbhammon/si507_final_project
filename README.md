@@ -18,33 +18,42 @@ This project is be a dashboard for users to build their Pokemon parties. The pro
 
 ## How to use
 
-1. A user can create their first party on the home page by entering a name and the game they're creating it for.
-2. After they submit the form a link to edit that team will be available for the user.
+1. A user can create their first party on the home page by typing a name and selecting the game they're creating it for. They can also choose an existing party (if there are any in the database) to edit by clicking its name.
+2. After they submit the form a link to edit that team will be available for the user at the top of the page.
 3. After clicking on a party a user can search for Pokemon to add to their party.
-4. Users can search for Pokemon in the given form, and then see them added to the party.
-5. The dashboard will then display for the user various helpful information about the team they've created.
+4. Users can search for Pokemon in the given form by their name, and then see them added to the party.
+5. Users will be told if the Pokemon they tried to add doesn't exist in the database or if it's not available in the game they chose when they created the party. The Pokemon will not be added, and they'll be presented with the form again.
+5. The dashboard will then display for the user which types their party has no resistance to. For example, if there is no Pokemon in the party that has a resistance to (i.e. takes less damage from) Ice-type attacks, then "Ice" will be shown in the list for the user.
 
 ## Routes in this application
 - `/` -> this is the home page, where users see the parties they've created, and have a form available to create new ones
-- `/built_team/<teamname>` -> this route has a form for user input to add pokemon to a party they've already created called <teamname>
+- `/build_team/<teamname>` -> this route has a form for user input to add Pokemon to a party they've already created called <teamname>
 - `/details/<pokemon>` -> this route is where users can see details about Pokemon they've added to a party
+- `/delete/<teamname>/<pokemon>` -> users are sent to this route when they remove a Pokemon from a party. It manages the data changes involved with dropping the row from the database. Users don't see anything displayed for them here, but are instead redirected to the `/built_team/<teamname>` route.
+- '/db_refresh' -> Users are given a link to this route from the home page. By navigating here users are able to refresh the database. All the tables are dropped and created again, and the "Game" and "Pokemon" tables are filled in from the appropriate .csv files in the `/data` directory. All the parties users have created will be gone, and they're able to start again fresh.
 
 ## How to run tests
 1. First, at the command line run `python SI507_project_tests.py` in the directory you cloned this repo into.
 2. Results of the test should print to the terminal, and the tests that passed and failed will be visible.
 
 ## In this repository:
-- templates
-  - index.html
-  - pokemon.html
-  - view_team.html
 - data
   - Games.csv
   - Pokemon.csv
+- static
+  - js
+    - lib
+    - main_scripts.js
+- templates
+  - index.html
+  - pokemon.html
+  - refresh.html
+  - view_team.html
 - .gitignore
-- requirements.txt
 - DB Diagram.png
+- pokemon_dashboard.db
 - README.md
+- requirements.txt
 - SI507project_tests.py
 - SI507project_tools.py
 
@@ -64,7 +73,7 @@ Below is a list of the requirements listed in the rubric for you to copy and pas
 - [x] Includes a clear and readable README.md that follows this template
 - [ ] Includes a sample .sqlite/.db file
 - [ ] Includes a diagram of your database schema
-- [ ] Includes EVERY file needed in order to run the project
+- [x] Includes EVERY file needed in order to run the project
 - [ ] Includes screenshots and/or clear descriptions of what your project should look like when it is working
 
 ### Flask Application
