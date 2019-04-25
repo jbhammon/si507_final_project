@@ -1,12 +1,12 @@
-<h1>Create your team</h1>
+<h1>Create your Party</h1>
 
-<h2>Current team members</h2>
+<h2>Current Party members</h2>
 
 <table>
 {% for pokemon in team_members %}
   <tr>
     <td><a href='/details/{{ pokemon }}'>{{ pokemon }}</a></td>
-    <td><a href='/delete/{{ teamname }}/{{ pokemon }}'>Delete from team</a></td>
+    <td><a href='/delete/{{ teamname }}/{{ pokemon }}'>Delete from party</a></td>
   </tr>
 {% endfor %}
 </table>

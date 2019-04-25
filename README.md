@@ -8,7 +8,7 @@ Jackson Hammond
 
 ## Project Description
 
-This project is be a dashboard for users to build their Pokemon parties. The project will allow users to build parties of six pokemon for the traditional Pokemon RPG games. They can pick Pokemon based on the specific game they’re playing, and the dashboard will help them visualize how strong their party is and which types they will have trouble fighting. There will be a route for building a team one Pokemon at time. There will be another route that let’s the user view detailed information about the Pokemon they’ve added to their team.  
+This project is be a dashboard for users to build their Pokemon parties. The project will allow users to build parties of six pokemon for the traditional Pokemon RPG games. They can pick Pokemon based on the specific game they’re playing, and the dashboard will help them visualize how strong their party is and which types they will have trouble fighting. There will be a route for building a party one Pokemon at time. There will be another route that let’s the user view detailed information about the Pokemon they’ve added to their party.  
 
 ## How to run
 
@@ -19,7 +19,7 @@ This project is be a dashboard for users to build their Pokemon parties. The pro
 ## How to use
 
 1. A user can create their first party on the home page by typing a name and selecting the game they're creating it for. They can also choose an existing party (if there are any in the database) to edit by clicking its name.
-2. After they submit the form a link to edit that team will be available for the user at the top of the page.
+2. After they submit the form a link to edit that party will be available for the user at the top of the page.
 3. After clicking on a party a user can search for Pokemon to add to their party.
 4. Users can search for Pokemon in the given form by their name, and then see them added to the party.
 5. Users will be told if the Pokemon they tried to add doesn't exist in the database or if it's not available in the game they chose when they created the party. The Pokemon will not be added, and they'll be presented with the form again.
