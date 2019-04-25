@@ -80,14 +80,14 @@ class Pokemon(db.Model):
 
 class Game(db.Model):
     __tablename__ = 'game'
-    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    name = db.Column(db.String(64))
+    # id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    name = db.Column(db.String(64), primary_key = True)
     generation = db.Column(db.Integer)
 
 class Party(db.Model):
     __tablename__ = 'party'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    game = db.Column(db.Integer)
+    game = db.Column(db.String(64))
     name = db.Column(db.String(64))
     party_size = db.Column(db.Integer)
 
