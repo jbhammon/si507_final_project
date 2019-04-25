@@ -70,6 +70,7 @@ class Pokemon(db.Model):
     Sp_Attack = db.Column(db.Integer)
     Sp_Defense = db.Column(db.Integer)
     Speed = db.Column(db.Integer)
+    Generation = db.Column(db.Integer)
 
     parties = relationship("PartyMember", back_populates="pokemon")
 
@@ -87,11 +88,12 @@ class Game(db.Model):
 class Party(db.Model):
     __tablename__ = 'party'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    game = db.Column(db.String(64))
+    game_name = db.Column(db.String(64), ForeignKey('game.name'))
     name = db.Column(db.String(64))
     party_size = db.Column(db.Integer)
 
     pokemon = relationship("PartyMember", back_populates = "party")
+    game = relationship("Game")
 
 ## Route functions
 @app.route('/', methods = ['POST', 'GET'])
@@ -99,7 +101,8 @@ def index():
     if request.method == 'POST':
         game = request.form['game']
         name = request.form['name']
-        new_party = Party(game = game, name = name, party_size = 0)
+        player_game = Game.query.filter_by(name = game).first()
+        new_party = Party(game = player_game, name = name, party_size = 0)
         session.add(new_party)
         session.commit()
 
@@ -121,17 +124,20 @@ def build_team(teamname):
         party = Party.query.filter_by(name = teamname).first()
         next_pokemon = Pokemon.query.filter_by(name = request.form['name'].lower()).first()
         if(next_pokemon):
-            next_member = PartyMember(extra_data = 50)
-            next_member.pokemon = next_pokemon
-            party.pokemon.append(next_member)
-            party.party_size += 1
+            if(next_pokemon.Generation <= party.game.generation):
+                next_member = PartyMember(extra_data = 50)
+                next_member.pokemon = next_pokemon
+                party.pokemon.append(next_member)
+                party.party_size += 1
 
-            session.add(party)
-            session.add(next_pokemon)
-            session.add(next_member)
-            session.commit()
+                session.add(party)
+                session.add(next_pokemon)
+                session.add(next_member)
+                session.commit()
+            else:
+                error = "Error: That Pokemon isn't available in {}".format(party.game.name)
         else:
-            error = True
+            error = "Error: That pokemon doesn't exist in the database. Make sure you spelled its name right!"
 
     current_party = Party.query.filter_by(name = teamname).first()
     current_team = current_party.pokemon
@@ -183,7 +189,7 @@ def fill_pokemon_data():
         for row in readCSV:
             next_pokemon = Pokemon(number = row[0], name = row[1].lower(), type_1 = row[2], type_2 = row[3], Total = row[4],
                                    HP = row[5], Attack = row[6], Defense = row[7], Sp_Attack = row[8],
-                                   Sp_Defense = row[9], Speed = row[10])
+                                   Sp_Defense = row[9], Speed = row[10], Generation = row[11])
             session.add(next_pokemon)
         session.commit()
 

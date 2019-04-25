@@ -16,7 +16,7 @@
 {% endif %}
 
 {% if error %}
-<h3>Error: That pokemon doesn't exist in the database. Make sure you spelled its name right!</h3>
+<h3>{{ error }}</h3>
 {% endif %}
 
 {% if teamsize < 6 %}
