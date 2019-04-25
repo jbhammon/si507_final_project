@@ -11,17 +11,12 @@
 {% endfor %}
 </table>
 
-{% if missing_resistances %}
-<p>Types this party has no resistance to:</p>
-<ul>
-{% for type in missing_resistances %}
-  <li>{{ type }}</li><br>
-{% endfor %}
-</ul>
-{% endif %}
-
 {% if teamsize == 6 %}
 <p>Your party is full! You need to remove a Pokemon before you can add another.</p>
+{% endif %}
+
+{% if error %}
+<h3>Error: That pokemon doesn't exist in the database. Make sure you spelled its name right!</h3>
 {% endif %}
 
 {% if teamsize < 6 %}
@@ -33,6 +28,15 @@
    <input type="submit" value="Submit">
  </fieldset>
 </form>
+{% endif %}
+
+{% if missing_resistances %}
+<p>Types this party has no resistance to:</p>
+<ul>
+{% for type in missing_resistances %}
+  <li>{{ type }}</li><br>
+{% endfor %}
+</ul>
 {% endif %}
 
 <a href='/'>Return to the home page</a>

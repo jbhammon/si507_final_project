@@ -108,23 +108,30 @@ def index():
     for team in recent_three_teams:
         recent_three_strings.append(str(team.name))
 
-    return render_template('index.html', recent_teams = recent_three_strings)
+    game_names = [r.name for r in Game.query.with_entities(Game.name)]
+
+    return render_template('index.html', recent_teams = recent_three_strings,
+                           game_names = game_names)
 
 @app.route('/build_team/<teamname>', methods = ['POST', 'GET'])
 def build_team(teamname):
+    error = None
     if request.method == 'POST':
 
         party = Party.query.filter_by(name = teamname).first()
         next_pokemon = Pokemon.query.filter_by(name = request.form['name'].lower()).first()
-        next_member = PartyMember(extra_data = 50)
-        next_member.pokemon = next_pokemon
-        party.pokemon.append(next_member)
-        party.party_size += 1
+        if(next_pokemon):
+            next_member = PartyMember(extra_data = 50)
+            next_member.pokemon = next_pokemon
+            party.pokemon.append(next_member)
+            party.party_size += 1
 
-        session.add(party)
-        session.add(next_pokemon)
-        session.add(next_member)
-        session.commit()
+            session.add(party)
+            session.add(next_pokemon)
+            session.add(next_member)
+            session.commit()
+        else:
+            error = True
 
     current_party = Party.query.filter_by(name = teamname).first()
     current_team = current_party.pokemon
@@ -141,7 +148,7 @@ def build_team(teamname):
 
     return render_template('view_team.html', team_members = current_team_names,
                            missing_resistances = missing_resistances, teamname = teamname,
-                           teamsize = current_party.party_size)
+                           teamsize = current_party.party_size, error = error)
 
 @app.route('/delete/<teamname>/<pokemon>')
 def delete_from_team(teamname, pokemon):

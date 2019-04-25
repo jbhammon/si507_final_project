@@ -12,13 +12,19 @@
 {% endif %}
 
 <form method="post">
- <fieldset>
-   <legend>Create a new team:</legend>
-   Name:<br>
-   <input type="text" name="name"><br>
-   Game:<br>
-   <input type="text" name="game"><br>
-   <input type="submit" value="Submit">
+  <fieldset>
+    <legend>Create a new team:</legend>
+    Name:<br>
+    <input type="text" name="name"><br>
+    Game:<br>
+
+    <select multiple="multiple">
+    {% for name in game_names %}
+    <option value="{{ name }}">{{ name }}</option>
+    {% endfor %}
+    </select>
+
+    <input type="submit" value="Submit">
  </fieldset>
 </form>
 

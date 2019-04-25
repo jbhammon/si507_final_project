@@ -4,16 +4,13 @@ from SI507project_tools import *
 class StepOne(unittest.TestCase):
 
     def setUp(self):
-        ## create class instances the tests below will need
-        # self.pokemon = Pokemon.query.filter_by(name = 'butterfree').first()
-        # self.party = Party(game = 'Gold', name = 'The OG', party_size = 0)
-        # first_party = Party(game = 'Gold', name = 'The OG', party_size = 0)
-        # session.add(first_party)
-        # session.commit()
         pass
 
-    ## Test number of rows in Pokemon table, should be 800
+    ## Test number of rows in Pokemon table after a DB refresh, should be 800
     def test_Pokemon_table_size(self):
+        db.drop_all()
+        db.create_all()
+        fill_pokemon_data()
         self.assertEqual(Pokemon.query.count(), 800, "Testing that Pokemon table is the correct size.")
 
     ## Adding to a team should add row to association table
@@ -29,6 +26,7 @@ class StepOne(unittest.TestCase):
         next_member = PartyMember(extra_data = 50)
         next_member.pokemon = test_pokemon
         test_party.pokemon.append(next_member)
+        test_party.party_size += 1
 
         session.add(test_party)
         session.add(test_pokemon)
@@ -36,9 +34,6 @@ class StepOne(unittest.TestCase):
         session.commit()
 
         self.assertEqual(len(test_party.pokemon), 1, "Testing that we can access a Party's Pokemon with the relationship() attribute from the data model.")
-
-    ## Query the association table directly to verify the data is correct there
-    ## TODO: figure out how to actually do this...
 
     # Adding duplicate should also add row to association table
     def test_add_to_team_duplicate(self):
@@ -48,6 +43,7 @@ class StepOne(unittest.TestCase):
 
         next_member.pokemon = test_pokemon
         test_party.pokemon.append(next_member)
+        test_party.party_size += 1
 
         session.add(test_party)
         session.add(test_pokemon)
@@ -56,19 +52,73 @@ class StepOne(unittest.TestCase):
 
         self.assertEqual(len(test_party.pokemon), 2, "Testing that duplicates can be added to Parties.")
 
-    # ## Shouldn't be able to add a seventh Pokemon to a Team
-    # ## Expected to fail at this point
-    # def test_party_max_size(self):
-    #     self.party.pokemon.append(self.pokemon)
-    #     session.add(self.party)
-    #     session.add(self.party)
-    #     session.add(self.party)
-    #     session.add(self.party)
-    #     session.add(self.party) ## Seventh pokemon that shouldn't be added
-    #     session.commit()
-    #     self.assertEqual(len(self.party.pokemon), 6, "Testing the size of a Party is capped at 6 Pokemon.")
+    ## Should be able to add a seventh Pokemon to a Team
+    ## Users will be prevented from adding more than 6 Pokemon in the Flask template
+    def test_party_max_size(self):
+        test_pokemon = Pokemon.query.filter_by(name = 'butterfree').first()
+        test_party = Party.query.filter_by(name = 'The OG').first()
 
-    ## Adding a pokemon that doesn't exist
+        next_member = PartyMember(extra_data = 50)
+        next_member.pokemon = test_pokemon
+        test_party.pokemon.append(next_member)
+        test_party.party_size += 1
+        session.add(next_member)
+
+        next_member = PartyMember(extra_data = 50)
+        next_member.pokemon = test_pokemon
+        test_party.pokemon.append(next_member)
+        test_party.party_size += 1
+        session.add(next_member)
+
+        next_member = PartyMember(extra_data = 50)
+        next_member.pokemon = test_pokemon
+        test_party.pokemon.append(next_member)
+        test_party.party_size += 1
+        session.add(next_member)
+
+        next_member = PartyMember(extra_data = 50)
+        next_member.pokemon = test_pokemon
+        test_party.pokemon.append(next_member)
+        test_party.party_size += 1
+        session.add(next_member)
+
+        next_member = PartyMember(extra_data = 50)
+        next_member.pokemon = test_pokemon
+        test_party.pokemon.append(next_member)
+        test_party.party_size += 1
+        session.add(next_member)
+
+        session.add(test_pokemon)
+        session.add(next_member)
+        session.commit()
+        self.assertEqual(len(test_party.pokemon), 7, "Testing that we can add 7 Pokemon to a party.")
+
+    def test_party_size(self):
+        test_party = Party.query.filter_by(name = 'The OG').first()
+        self.assertEqual(test_party.party_size, 7, "Testing that the party size is incrementing in the database correctly.")
+
+    def test_resistance_helper(self):
+        test_party = Party.query.filter_by(name = 'The OG').first().pokemon
+        test_dict = {'Normal': 0,
+                     'Fighting': 1,
+                     'Flying': 0,
+                     'Poison': 0,
+                     'Ground': 1,
+                     'Rock': 0,
+                     'Bug': 1,
+                     'Ghost': 0,
+                     'Steel': 0,
+                     'Fire': 0,
+                     'Water': 0,
+                     'Grass': 1,
+                     'Electric': 0,
+                     'Psychic': 0,
+                     'Ice': 0,
+                     'Dragon': 0,
+                     'Dark': 0,
+                     'Fairy': 0}
+        results = resistance_checking(test_party)
+        self.assertEqual(test_dict, results, "Testing that the correct resistances for a party are returned.")
 
     def tearDown(self):
         ## delete all the classes we created in setUp()
