@@ -13,7 +13,7 @@ class StepOne(unittest.TestCase):
         fill_pokemon_data()
         self.assertEqual(Pokemon.query.count(), 800, "Testing that Pokemon table is the correct size.")
 
-    ## Adding to a team should add row to association table
+    ## testing that logic to add pokemon to parties is correct
     def test_add_to_team(self):
 
         first_party = Party(game = 'Gold', name = 'The OG', party_size = 0)
