@@ -3,4 +3,3 @@ Lib/
 Scripts/
 tcl/
 __pycache__/
-*.db
