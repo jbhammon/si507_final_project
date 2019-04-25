@@ -1,47 +1,67 @@
-<h1>Create your Party</h1>
+<!doctype html>
+<html lang="en">
+  <head>
 
-<h2>Current Party members</h2>
+    <!-- Required meta tags -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<table>
-{% for pokemon in team_members %}
-  <tr>
-    <td><a href='/details/{{ pokemon }}'>{{ pokemon }}</a></td>
-    <td><a href='/delete/{{ teamname }}/{{ pokemon }}'>Delete from party</a></td>
-  </tr>
-{% endfor %}
-</table>
+    <!-- Linking out to include Bootstrap  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  </head>
 
-{% if teamsize == 6 %}
-<p>Your party is full! You need to remove a Pokemon before you can add another.</p>
-{% endif %}
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 ">
+          <h1>Create your Party</h1>
 
-{% if error %}
-<h3>{{ error }}</h3>
-{% endif %}
+          <h2>Current Party members</h2>
 
-{% if teamsize < 6 %}
-<form method="post">
- <fieldset>
-   <legend>Add a Pokemon:</legend>
-   Search by Name:<br>
-   <input type="text" name="name"><br>
-   <input type="submit" value="Submit">
- </fieldset>
-</form>
-{% endif %}
+          <table>
+          {% for pokemon in team_members %}
+            <tr>
+              <td><a href='/details/{{ pokemon }}'>{{ pokemon }}</a></td>
+              <td><a href='/delete/{{ teamname }}/{{ pokemon }}'>Delete from party</a></td>
+            </tr>
+          {% endfor %}
+          </table>
 
-{% if missing_resistances %}
-<p>Types this party has no resistance to:</p>
-<ul>
-{% for type in missing_resistances %}
-  <li>{{ type }}</li><br>
-{% endfor %}
-</ul>
-{% endif %}
+          {% if teamsize == 6 %}
+          <p>Your party is full! You need to remove a Pokemon before you can add another.</p>
+          {% endif %}
 
-{% if not missing_resistances %}
-<p>This party has a resistance against every type. Nice job!</p>
-{% endif %}
+          {% if error %}
+          <h3>{{ error }}</h3>
+          {% endif %}
 
+          {% if teamsize < 6 %}
+          <form method="post">
+           <fieldset>
+             <legend>Add a Pokemon:</legend>
+             Search by Name:<br>
+             <input type="text" name="name"><br>
+             <input type="submit" value="Submit">
+           </fieldset>
+          </form>
+          {% endif %}
 
-<a href='/'>Return to the home page</a>
+          {% if missing_resistances %}
+          <p>Types this party has no resistance to:</p>
+          <ul>
+          {% for type in missing_resistances %}
+            <li>{{ type }}</li><br>
+          {% endfor %}
+          </ul>
+          {% endif %}
+
+          {% if not missing_resistances %}
+          <p>This party has a resistance against every type. Nice job!</p>
+          {% endif %}
+
+          <a href='/'>Return to the home page</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
