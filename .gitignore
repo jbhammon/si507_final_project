@@ -3,5 +3,4 @@ Lib/
 Scripts/
 tcl/
 __pycache__/
-pokemon_dashboard.db
 static/team_stats_barplot.png
