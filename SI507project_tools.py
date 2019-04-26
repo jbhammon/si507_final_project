@@ -140,7 +140,7 @@ def build_team(teamname):
         else:
             error = "Error: That pokemon doesn't exist in the database. Make sure you spelled its name right!"
 
-    stats_dict = {'stat': [], 'value': []}
+    # stats_dict = {'stat': [], 'value': []}
     current_party = Party.query.filter_by(name = teamname).first()
     current_team = current_party.pokemon
     current_team_names = []
@@ -149,32 +149,32 @@ def build_team(teamname):
 
         ## Collecting data about the party's current stats
         ## This will get aggregated and plotted below
-        stats_dict['stat'].append('HP')
-        stats_dict['value'].append(member.pokemon.HP)
+        # stats_dict['stat'].append('HP')
+        # stats_dict['value'].append(member.pokemon.HP)
+        #
+        # stats_dict['stat'].append('Attack')
+        # stats_dict['value'].append(member.pokemon.Attack)
+        #
+        # stats_dict['stat'].append('Defense')
+        # stats_dict['value'].append(member.pokemon.Defense)
+        #
+        # stats_dict['stat'].append('Sp. Attack')
+        # stats_dict['value'].append(member.pokemon.Sp_Attack)
+        #
+        # stats_dict['stat'].append('Sp. Defense')
+        # stats_dict['value'].append(member.pokemon.Sp_Defense)
+        #
+        # stats_dict['stat'].append('Speed')
+        # stats_dict['value'].append(member.pokemon.Speed)
 
-        stats_dict['stat'].append('Attack')
-        stats_dict['value'].append(member.pokemon.Attack)
-
-        stats_dict['stat'].append('Defense')
-        stats_dict['value'].append(member.pokemon.Defense)
-
-        stats_dict['stat'].append('Sp. Attack')
-        stats_dict['value'].append(member.pokemon.Sp_Attack)
-
-        stats_dict['stat'].append('Sp. Defense')
-        stats_dict['value'].append(member.pokemon.Sp_Defense)
-
-        stats_dict['stat'].append('Speed')
-        stats_dict['value'].append(member.pokemon.Speed)
-
-    if len(current_team) > 0:
-        ## Convert that stats dictionary to a pandas DataFrame object
-        df_stats = pd.DataFrame.from_dict(stats_dict)
-
-        ## Plotting a bar plot with Seaborn of a sum each stat for the whole party
-        fig = sns.barplot(x = "stat", y = "value", data = df_stats, estimator = sum,
-                          ci = None).get_figure()
-        fig.savefig("static/team_stats_barplot.png", dpi=300)
+    # if len(current_team) > 0:
+    #     ## Convert that stats dictionary to a pandas DataFrame object
+    #     df_stats = pd.DataFrame.from_dict(stats_dict)
+    #
+    #     ## Plotting a bar plot with Seaborn of a sum each stat for the whole party
+    #     fig = sns.barplot(x = "stat", y = "value", data = df_stats, estimator = sum,
+    #                       ci = None).get_figure()
+    #     fig.savefig("static/team_stats_barplot.png", dpi=300)
 
     ## code to calculate missing type coverage
     resistances = resistance_checking(current_team)

@@ -31,10 +31,10 @@
             <fieldset>
               <legend>Create a new party:</legend>
               Name:<br>
-              <input type="text" name="name"><br>
+              <input type="text" name="name" required><br>
               Game:<br>
 
-              <select multiple="multiple" name="game">
+              <select multiple="multiple" name="game" required>
               {% for name in game_names %}
               <option value="{{ name }}">{{ name }}</option>
               {% endfor %}

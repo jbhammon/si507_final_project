@@ -71,8 +71,8 @@ Below is a list of the requirements listed in the rubric for you to copy and pas
 - [x] Project includes at least 1 test suite file with reasonable tests in it.
 - [x] Includes a `requirements.txt` file containing all required modules to run program
 - [x] Includes a clear and readable README.md that follows this template
-- [ ] Includes a sample .sqlite/.db file
-- [ ] Includes a diagram of your database schema
+- [x] Includes a sample .sqlite/.db file
+- [x] Includes a diagram of your database schema
 - [x] Includes EVERY file needed in order to run the project
 - [ ] Includes screenshots and/or clear descriptions of what your project should look like when it is working
 
