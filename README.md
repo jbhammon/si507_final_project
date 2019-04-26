@@ -15,8 +15,12 @@ This project is be a dashboard for users to build their Pokemon parties. The pro
 1. First, you should fork this repository and clone it locally for yourself.
 2. Second, you should install all requirements with `pip install -r requirements.txt`
 3. Third, run `python SI507_project_tools.py runserver` from the command line in the directory you cloned this repo into.
+4. You can find the homepage of the app at http://localhost:5000/
+5. This repo has an example database file for reference (SAMPLE_database_file.db), but the app will create a database file called pokemon_dashboard.db
 
 ## How to use
+
+### IF YOU HAVE NO IDEA HOW POKEMON WORKS SEE THE END OF THIS SECTION FOR SPECIFIC STEPS YOU CAN FOLLOW TO USE THIS APP
 
 1. A user can create their first party on the home page by typing a name and selecting the game they're creating it for. They can also choose an existing party (if there are any in the database) to edit by clicking its name.
 2. After they submit the form a link to edit that party will be available for the user at the top of the page.
@@ -30,6 +34,18 @@ This project is be a dashboard for users to build their Pokemon parties. The pro
 ![Build party](/readme_screenshots/error message two.png)
 5. The dashboard will then display for the user which types their party has no resistance to. For example, if there is no Pokemon in the party that has a resistance to (i.e. takes less damage from) Ice-type attacks, then "Ice" will be shown in the list for the user.
 ![Build party](/readme_screenshots/build_party_full.png)
+
+### I don't know pokemon at all, what should I do?
+1. Once you've started the app and navigated to http://localhost:5000/ click the link at the bottom to refresh the database.
+2. Navigate back to the home page.
+3. Type in a name for a new party, like "I'm New to Pokemon".
+4. Select the "Gold Version" option in the "Game" selection section of the form.
+5. Submit the form, and then click the link for the new party you just created.
+6. Time to add some pokemon to the party. Notice while you add each that the list of "types this party has no resistance to" gets shorter. Search for these six pokemon: Feraligatr, Ampharos, Lugia, Gengar, Steelix, and Pidgeot. That's the party I used in the first ever Pokemon game I played, and it should only be missing a resistance to Dark-type moves.
+7. Other potential options to add: Sudowoodo, Golem, Magmar, Rapidash
+8. Palkia is from a future generation. If you chose "Gold Version" correctly when you created this party, you should be told you can't add that Pokemon to this party.
+9. Any random string should tell you to check your spelling because that pokemon isn't in the database.
+10. Click on the name of any of the Pokemon currently in the party. You'll be shown their types and overall stats.
 
 ## Routes in this application
 - `/` -> this is the home page, where users see the parties they've created, and have a form available to create new ones
@@ -46,6 +62,8 @@ This project is be a dashboard for users to build their Pokemon parties. The pro
 - data
   - Games.csv
   - Pokemon.csv
+- readme_screenshots
+  - Various screenshots of the app running that are linked above
 - static
   - js
     - lib
@@ -57,7 +75,7 @@ This project is be a dashboard for users to build their Pokemon parties. The pro
   - view_team.html
 - .gitignore
 - DB Diagram.png
-- pokemon_dashboard.db
+- SAMPLE_database_file.db
 - README.md
 - requirements.txt
 - SI507project_tests.py
@@ -80,7 +98,7 @@ Below is a list of the requirements listed in the rubric for you to copy and pas
 - [x] Includes a sample .sqlite/.db file
 - [x] Includes a diagram of your database schema
 - [x] Includes EVERY file needed in order to run the project
-- [ ] Includes screenshots and/or clear descriptions of what your project should look like when it is working
+- [x] Includes screenshots and/or clear descriptions of what your project should look like when it is working
 
 ### Flask Application
 - [x] Includes at least 3 different routes
@@ -105,5 +123,5 @@ Below is a list of the requirements listed in the rubric for you to copy and pas
 - [ ] Caching of data you continually retrieve from the internet in some way
 
 ### Submission
-- [ ] I included a link to my GitHub repository with the correct permissions on Canvas! (Did you though? Did you actually? Are you sure you didn't forget?)
-- [ ] I included a summary of my project and how I thought it went **in my Canvas submission**!
+- [x] I included a link to my GitHub repository with the correct permissions on Canvas! (Did you though? Did you actually? Are you sure you didn't forget?)
+- [x] I included a summary of my project and how I thought it went **in my Canvas submission**!
