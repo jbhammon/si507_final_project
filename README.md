@@ -19,12 +19,17 @@ This project is be a dashboard for users to build their Pokemon parties. The pro
 ## How to use
 
 1. A user can create their first party on the home page by typing a name and selecting the game they're creating it for. They can also choose an existing party (if there are any in the database) to edit by clicking its name.
-![Homepage](/readme_screenshots/homepage.png)
 2. After they submit the form a link to edit that party will be available for the user at the top of the page.
+![Homepage](/readme_screenshots/homepage.png)
 3. After clicking on a party a user can search for Pokemon to add to their party.
+![Build party](/readme_screenshots/build_party_empty.png)
 4. Users can search for Pokemon in the given form by their name, and then see them added to the party.
+![Build party](/readme_screenshots/build_party.png)
 5. Users will be told if the Pokemon they tried to add doesn't exist in the database or if it's not available in the game they chose when they created the party. The Pokemon will not be added, and they'll be presented with the form again.
+![Build party](/readme_screenshots/error message one.png)
+![Build party](/readme_screenshots/error message two.png)
 5. The dashboard will then display for the user which types their party has no resistance to. For example, if there is no Pokemon in the party that has a resistance to (i.e. takes less damage from) Ice-type attacks, then "Ice" will be shown in the list for the user.
+![Build party](/readme_screenshots/build_party_full.png)
 
 ## Routes in this application
 - `/` -> this is the home page, where users see the parties they've created, and have a form available to create new ones
