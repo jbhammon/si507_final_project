@@ -16,7 +16,7 @@ class StepOne(unittest.TestCase):
     ## testing that logic to add pokemon to parties is correct
     def test_add_to_team(self):
 
-        first_party = Party(game = 'Gold', name = 'The OG', party_size = 0)
+        first_party = Party(game_name = 'Gold', name = 'The OG', party_size = 0)
         session.add(first_party)
         session.commit()
 
