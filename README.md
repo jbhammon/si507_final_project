@@ -19,6 +19,7 @@ This project is be a dashboard for users to build their Pokemon parties. The pro
 ## How to use
 
 1. A user can create their first party on the home page by typing a name and selecting the game they're creating it for. They can also choose an existing party (if there are any in the database) to edit by clicking its name.
+![Homepage](/readme_screenshots/homepage.png)
 2. After they submit the form a link to edit that party will be available for the user at the top of the page.
 3. After clicking on a party a user can search for Pokemon to add to their party.
 4. Users can search for Pokemon in the given form by their name, and then see them added to the party.
