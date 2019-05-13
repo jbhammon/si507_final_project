@@ -63,6 +63,9 @@
       </div>
     </div>
 
+    <div id="chart" class="chart">
+    </div>
+
     <div class="container">
       <div class="row">
         <div class="col-sm-3">
@@ -86,11 +89,29 @@
         </div> -->
         {% endif %}
       </div>
+
       <div class="row">
         <div class="col-sm-12">
           <a href='/'>Return to the home page</a>
         </div>
       </div>
     </div>
+
+
+    <!-- D3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script type="text/javascript">
+
+        var data = {{graphJSON | safe}};
+        var layout = {barmode: 'stack'};
+
+        Plotly.plot('chart', data, layout);
+
+    </script>
+
   </body>
 </html>

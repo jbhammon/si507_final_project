@@ -1,4 +1,8 @@
-# from data_models import Pokemon, Party
+import plotly
+import plotly.plotly as py
+import plotly.graph_objs as go
+import json
+
 from db import db
 from app import session
 import csv
@@ -76,5 +80,17 @@ def resistance_checking(team):
             resistance_dict[item] = 1
     return resistance_dict
 
-if __name__ == '__main__':
-    app.run()
+def create_bar_plot(current_team):
+
+    data = []
+    for member in current_team:
+        x = ['HP', 'Attack', 'Defense', 'Sp. Attack', 'Sp. Defense', 'Speed']
+        y = [member.pokemon.HP, member.pokemon.Attack, member.pokemon.Defense,
+             member.pokemon.Sp_Attack, member.pokemon.Sp_Defense, member.pokemon.Speed]
+        name = member.pokemon.name
+        bars = go.Bar(x=x, y=y, name=name)
+        data.append(bars)
+
+    graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return graphJSON

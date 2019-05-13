@@ -88,14 +88,9 @@ def build_team(teamname):
         # stats_dict['stat'].append('Speed')
         # stats_dict['value'].append(member.pokemon.Speed)
 
-    # if len(current_team) > 0:
-    #     ## Convert that stats dictionary to a pandas DataFrame object
-    #     df_stats = pd.DataFrame.from_dict(stats_dict)
-    #
-    #     ## Plotting a bar plot with Seaborn of a sum each stat for the whole party
-    #     fig = sns.barplot(x = "stat", y = "value", data = df_stats, estimator = sum,
-    #                       ci = None).get_figure()
-    #     fig.savefig("static/team_stats_barplot.png", dpi=300)
+    graphJSON = None
+    if len(current_team) > 0:
+        graphJSON = create_bar_plot(current_team)
 
     ## code to calculate missing type coverage
     resistances = resistance_checking(current_team)
@@ -106,7 +101,8 @@ def build_team(teamname):
 
     return render_template('view_team.html', team_members = current_team_names,
                            missing_resistances = missing_resistances, teamname = teamname,
-                           teamsize = current_party.party_size, error = error)
+                           teamsize = current_party.party_size, error = error,
+                           graphJSON = graphJSON)
 
 @app.route('/delete/<teamname>/<pokemon>')
 def delete_from_team(teamname, pokemon):
