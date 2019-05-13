@@ -66,6 +66,9 @@
     <div id="chart" class="chart">
     </div>
 
+    <div id="pieChart" class="pieChart">
+    </div>
+
     <div class="container">
       <div class="row">
         <div class="col-sm-3">
@@ -109,7 +112,15 @@
         var data = {{graphJSON | safe}};
         var layout = {barmode: 'stack'};
 
-        Plotly.plot('chart', data, layout);
+        Plotly.newPlot('chart', data, layout);
+
+    </script>
+
+    <script type="text/javascript">
+
+        var data = [{{pieJSON | safe}}];
+
+        Plotly.newPlot('pieChart', data, {});
 
     </script>
 

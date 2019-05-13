@@ -88,9 +88,9 @@ def build_team(teamname):
         # stats_dict['stat'].append('Speed')
         # stats_dict['value'].append(member.pokemon.Speed)
 
-    graphJSON = None
-    if len(current_team) > 0:
-        graphJSON = create_bar_plot(current_team)
+    graphJSON = create_bar_plot(current_team)
+
+    pieJSON = create_pie_chart(current_team)
 
     ## code to calculate missing type coverage
     resistances = resistance_checking(current_team)
@@ -102,7 +102,7 @@ def build_team(teamname):
     return render_template('view_team.html', team_members = current_team_names,
                            missing_resistances = missing_resistances, teamname = teamname,
                            teamsize = current_party.party_size, error = error,
-                           graphJSON = graphJSON)
+                           graphJSON = graphJSON, pieJSON = pieJSON)
 
 @app.route('/delete/<teamname>/<pokemon>')
 def delete_from_team(teamname, pokemon):

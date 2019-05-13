@@ -82,6 +82,9 @@ def resistance_checking(team):
 
 def create_bar_plot(current_team):
 
+    if len(current_team) < 1:
+        return None
+
     data = []
     for member in current_team:
         x = ['HP', 'Attack', 'Defense', 'Sp. Attack', 'Sp. Defense', 'Speed']
@@ -94,3 +97,18 @@ def create_bar_plot(current_team):
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
 
     return graphJSON
+
+def create_pie_chart(current_team):
+
+    if len(current_team) < 1:
+        return None
+
+    labels = []
+    values = []
+    for member in current_team:
+        labels.append(member.pokemon.name)
+        values.append(member.pokemon.Total)
+
+    data = go.Pie(labels=labels, values=values)
+    pieJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+    return pieJSON
