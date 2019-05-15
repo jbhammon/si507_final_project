@@ -15,21 +15,15 @@
       <div class="row">
         <div class="col-sm-12 ">
           <h1>Welcome to the Pokemon Party Builder Dashboard!</h1>
-
           <p>You can edit parties you already created below, or create new ones.</p>
+        </div>
+      </div>
 
-          <ul>
-          {% for team in recent_teams %}
-          <li><a href='/build_team/{{ team }}'>{{ team }}</a></li><br>
-          {% endfor %}
-          </ul>
-
-          {% if not recent_teams %}
-          {% endif %}
-
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
           <form method="post">
             <fieldset>
-              <legend>Create a new party:</legend>
+              <h3>Create a new party:</h3>
               Name:<br>
               <input type="text" name="name" required><br>
               Game:<br>
@@ -43,7 +37,25 @@
               <input type="submit" value="Submit">
            </fieldset>
           </form>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          {% if recent_teams %}
+          <h3>Edit a Party</h3>
+            <ul>
+            {% for team in recent_teams %}
+              <li><a href='/build_team/{{ team }}'>{{ team }}</a></li><br>
+            {% endfor %}
+            </ul>
+          {% endif %}
 
+          {% if not recent_teams %}
+            <h2>Start by creating a party on the left!</h2>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
           <h4>Want to refresh the database and start over? <a href='/db_refresh'>Click here!</a></h4>
         </div>
       </div>
