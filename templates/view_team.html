@@ -46,53 +46,56 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 col-md-6">
           <h2>Current Party members</h2>
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        {% for pokemon in team_members %}
-          <div class="col-sm-4">
-            <a href='/details/{{ pokemon }}'>{{ pokemon }}</a><br>
-            <a href='/delete/{{ teamname }}/{{ pokemon }}'>Delete from party</a>
+          <div class="row">
+            {% for pokemon in team_members %}
+              <div class="col-sm-6">
+                <a href='/details/{{ pokemon }}'>{{ pokemon }}</a><br>
+                <a href='/delete/{{ teamname }}/{{ pokemon }}'>Delete from party</a>
+              </div>
+            {% endfor %}
           </div>
-        {% endfor %}
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <h2>Missing Resistances</h2>
+          <div class="row">
+            {% if missing_resistances %}
+              <div class="col-sm-12">
+                <p>Types this party has no resistance to:</p>
+              </div>
+              {% for type in missing_resistances %}
+                <div class="col-sm-4">
+                  <p>{{ type }}</p>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if not missing_resistances %}
+            <p>This party has a resistance against every type. Nice job!</p>
+            {% endif %}
+
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div id="chart" class="chart">
-    </div>
-
-    <div id="pieChart" class="pieChart">
     </div>
 
     <div class="container">
       <div class="row">
-        <div class="col-sm-3">
-          {% if missing_resistances %}
-          <p>Types this party has no resistance to:</p>
-          <ul>
-          {% for type in missing_resistances %}
-            <li>{{ type }}</li><br>
-          {% endfor %}
-          </ul>
-          {% endif %}
-
-          {% if not missing_resistances %}
-          <p>This party has a resistance against every type. Nice job!</p>
-          {% endif %}
-
+        <div class="col-sm-12 col-md-6">
+          <div id="chart" class="chart">
+          </div>
         </div>
-        {% if teamsize > 0 %}
-        <!-- <div class="col-sm-9">
-          <img src="{{url_for('static', filename='team_stats_barplot.png')}}" class="img-fluid">
-        </div> -->
-        {% endif %}
+        <div class="col-sm-12 col-md-6">
+          <div id="pieChart" class="pieChart">
+          </div>
+        </div>
       </div>
+    </div>
 
+
+
+    <div class="container">
       <div class="row">
         <div class="col-sm-12">
           <a href='/'>Return to the home page</a>
