@@ -14,7 +14,7 @@ This project is be a dashboard for users to build their Pokemon parties. The pro
 
 1. First, you should fork this repository and clone it locally for yourself.
 2. Second, you should install all requirements with `pip install -r requirements.txt`
-3. Third, run `python SI507_project_tools.py runserver` from the command line in the directory you cloned this repo into.
+3. Third, run `python app.py runserver` from the command line in the directory you cloned this repo into.
 4. You can find the homepage of the app at http://localhost:5000/
 5. This repo has an example database file for reference (SAMPLE_database_file.db), but the app will create a database file called pokemon_dashboard.db
 
